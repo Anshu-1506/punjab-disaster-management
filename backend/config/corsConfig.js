@@ -6,16 +6,16 @@
 import cors from 'cors';
 
 // Allowed origins
+// In your allowedOrigins array, ADD your actual Vercel domain:
 const allowedOrigins = [
-  'http://localhost:5173', // Vite dev server
-  'http://localhost:3000', // Create React App dev server
+  'http://localhost:5173',
+  'http://localhost:3000',
   'http://127.0.0.1:5173',
   'http://127.0.0.1:3000',
-  'https://punjab-ready-portal.vercel.app', // Production frontend
-  'https://www.punjab-ready-portal.gov.in', // Government domain
-  'https://punjab-ready-portal.gov.in' // Government domain
+  'https://punjab-disaster-management-f9dx.vercel.app', // ADD YOUR ACTUAL DOMAIN
+  'https://punjab-disaster-m-git-7e1352-anshuman-tiwaris-projects-8ff7be62.vercel.app', // ADD THIS TOO
+  'https://*.vercel.app' // Wildcard for all Vercel deployments
 ];
-
 // CORS options configuration
 const corsOptions = {
   origin: (origin, callback) => {

@@ -21,6 +21,9 @@ import connectDB from './config/database.js';
 // Import middleware
 import { errorHandler } from './middleware/errorMiddleware.js';
 
+// Import CORS configuration
+import getCorsConfig, { corsErrorHandler } from './config/corsConfig.js';
+
 // Load env vars
 dotenv.config();
 
@@ -42,12 +45,9 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// CORS configuration - UPDATED
-import getCorsConfig, { corsErrorHandler } from './config/corsConfig.js';
+// CORS configuration
 app.use(getCorsConfig());
 app.use(corsErrorHandler);
-
-
 
 // Body parser middleware
 app.use(express.json({ limit: '10mb' }));
@@ -56,8 +56,8 @@ app.use(express.urlencoded({ extended: true }));
 // Logging
 app.use(morgan('combined'));
 
-// Static files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Static files - disable file uploads in production for now
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -72,6 +72,17 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({
     success: true,
     message: 'Server is running',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// Root endpoint
+app.get('/api', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Punjab Disaster Management API',
+    version: '1.0.0',
     timestamp: new Date().toISOString()
   });
 });
@@ -83,13 +94,10 @@ app.use(errorHandler);
 app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
-    message: 'Route not found'
+    message: 'Route not found',
+    path: req.originalUrl
   });
 });
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+// Export for Vercel serverless functions
+export default app;
