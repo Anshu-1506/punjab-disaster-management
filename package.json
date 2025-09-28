@@ -1,6 +1,7 @@
 {
   "name": "punjab-ready-portal",
   "version": "1.0.0",
+  "description": "Punjab Ready Portal - Full Stack Application",
   "scripts": {
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd dashboard && npm run dev",
@@ -9,5 +10,8 @@
   },
   "devDependencies": {
     "vercel": "^35.0.0"
-  }
+  },
+  "keywords": ["punjab", "portal", "government"],
+  "author": "Your Name",
+  "license": "MIT"
 }
