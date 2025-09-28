@@ -9,7 +9,7 @@
       "src": "dashboard/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "installCommand": "cd dashboard && npm install --legacy-peer-deps"
+        "installCommand": "cd dashboard && npm install"
       }
     }
   ],
@@ -22,6 +22,5 @@
       "src": "/(.*)",
       "dest": "dashboard/dist/$1"
     }
-  ],
-  "outputDirectory": "dashboard/dist"
+  ]
 }
