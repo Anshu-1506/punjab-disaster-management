@@ -7,20 +7,17 @@
     },
     {
       "src": "dashboard/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "installCommand": "cd dashboard && npm install"
-      }
+      "use": "@vercel/static-build"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "backend/server.js"
+      "dest": "/backend/server.js"
     },
     {
       "src": "/(.*)",
-      "dest": "dashboard/dist/$1"
+      "dest": "/dashboard/dist/$1"
     }
   ]
 }
