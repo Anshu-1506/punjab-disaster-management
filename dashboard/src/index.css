@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Government Dashboard Design System - Punjab Disaster Preparedness
+   Official government color scheme with orange theme
+*/
+
+@layer base {
+  :root {
+    /* Government Color Palette - Orange Theme */
+    --background: 0 0% 100%;
+    --foreground: 20 15% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 20 15% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 15% 15%;
+
+    /* Government Orange - Primary (from screenshot) */
+    --primary: 25 95% 53%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Darker Orange for Secondary */
+    --secondary: 25 85% 45%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 25 30% 96%;
+    --muted-foreground: 20 15% 45%;
+
+    --accent: 25 85% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Success Green - for status indicators */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning Amber */
+    --warning: 38 92% 50%;
+    --warning-foreground: 20 15% 15%;
+
+    --border: 25 20% 85%;
+    --input: 25 20% 85%;
+    --ring: 25 95% 53%;
+
+    --radius: 0.375rem;
+
+    /* Government Header and Navigation - Orange Theme */
+    --gov-header: 25 95% 53%;
+    --gov-header-foreground: 0 0% 100%;
+    
+    /* Status Colors */
+    --status-active: 142 76% 36%;
+    --status-pending: 38 92% 50%;
+    --status-inactive: 0 0% 60%;
+
+    /* Gradients - Orange Theme */
+    --gradient-primary: linear-gradient(135deg, hsl(25 95% 53%), hsl(25 95% 63%));
+    --gradient-secondary: linear-gradient(135deg, hsl(25 85% 45%), hsl(25 85% 55%));
+    
+    /* Shadows */
+    --shadow-gov: 0 4px 6px -1px hsl(25 95% 53% / 0.1);
+    --shadow-card: 0 1px 3px 0 hsl(25 20% 85% / 0.3);
+
+    --sidebar-background: 25 95% 53%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 25 85% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 25 95% 58%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 25 95% 48%;
+    --sidebar-ring: 25 85% 45%;
+  }
+
+  .dark {
+    --background: 20 15% 8%;
+    --foreground: 25 30% 95%;
+
+    --card: 20 15% 12%;
+    --card-foreground: 25 30% 95%;
+
+    --popover: 20 15% 12%;
+    --popover-foreground: 25 30% 95%;
+
+    --primary: 25 95% 63%;
+    --primary-foreground: 20 15% 15%;
+
+    --secondary: 25 85% 55%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 20 15% 15%;
+    --muted-foreground: 25 30% 70%;
+
+    --accent: 25 85% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 76% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 60%;
+    --warning-foreground: 20 15% 15%;
+
+    --border: 20 15% 20%;
+    --input: 20 15% 20%;
+    --ring: 25 95% 63%;
+
+    --gov-header: 20 15% 12%;
+    --gov-header-foreground: 25 30% 95%;
+
+    --sidebar-background: 20 15% 10%;
+    --sidebar-foreground: 25 30% 95%;
+    --sidebar-primary: 25 95% 63%;
+    --sidebar-primary-foreground: 20 15% 15%;
+    --sidebar-accent: 20 15% 15%;
+    --sidebar-accent-foreground: 25 30% 95%;
+    --sidebar-border: 20 15% 20%;
+    --sidebar-ring: 25 85% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+
+  /* Leaflet Map Styles */
+  .leaflet-container {
+    @apply rounded-lg;
+  }
+  
+  /* Government specific utilities */
+  .gov-gradient {
+    background: var(--gradient-primary);
+  }
+  
+  .gov-shadow {
+    box-shadow: var(--shadow-gov);
+  }
+  
+  .status-badge {
+    @apply inline-flex items-center px-2 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .status-active {
+    @apply bg-green-100 text-green-800;
+  }
+  
+  .status-pending {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+  
+  .status-inactive {
+    @apply bg-gray-100 text-gray-800;
+  }
+
+  /* Orange theme specific styles */
+  .orange-theme {
+    /* Button styles */
+    .btn-primary {
+      @apply bg-primary text-primary-foreground hover:bg-primary/90;
+    }
+    
+    /* Card styles */
+    .gov-card {
+      @apply bg-card border border-border rounded-lg shadow-card;
+    }
+    
+    /* Header styles */
+    .gov-header {
+      background: hsl(25 95% 53%);
+      color: hsl(0 0% 100%);
+    }
+  }
+}
