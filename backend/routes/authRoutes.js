@@ -1,66 +1,89 @@
 import express from 'express';
-import { body } from 'express-validator';
-import {
-  register,
-  login,
-  getMe,
-  updateProfile
-} from '../controllers/authController.js';
-import { protect } from '../middleware/authMiddleware.js';
-import { handleValidationErrors } from '../middleware/validationMiddleware.js';
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
-// Validation rules
-const registerValidation = [
-  body('name')
-    .trim()
-    .isLength({ min: 2, max: 50 })
-    .withMessage('Name must be between 2 and 50 characters'),
-  body('email')
-    .isEmail()
-    .normalizeEmail()
-    .withMessage('Please provide a valid email'),
-  body('password')
-    .isLength({ min: 6 })
-    .withMessage('Password must be at least 6 characters long'),
-  body('role')
-    .optional()
-    .isIn(['user', 'admin', 'moderator'])
-    .withMessage('Invalid role specified')
+// Mock users for testing
+const mockUsers = [
+  {
+    id: 1,
+    email: 'rajesh.kumar@gov.punjab.in',
+    password: 'punjab123',
+    name: 'Dr. Rajesh Kumar',
+    role: 'disaster_management_officer'
+  },
+  {
+    id: 2,
+    email: 'priya.singh@gov.punjab.in',
+    password: 'punjab123', 
+    name: 'Ms. Priya Singh',
+    role: 'education_coordinator'
+  },
+  {
+    id: 3,
+    email: 'hardeep.singh@gov.punjab.in',
+    password: 'punjab123',
+    name: 'Mr. Hardeep Singh',
+    role: 'system_admin'
+  }
 ];
 
-const loginValidation = [
-  body('email')
-    .isEmail()
-    .normalizeEmail()
-    .withMessage('Please provide a valid email'),
-  body('password')
-    .notEmpty()
-    .withMessage('Password is required')
-];
+// Login endpoint
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-const updateProfileValidation = [
-  body('name')
-    .optional()
-    .trim()
-    .isLength({ min: 2, max: 50 })
-    .withMessage('Name must be between 2 and 50 characters'),
-  body('email')
-    .optional()
-    .isEmail()
-    .normalizeEmail()
-    .withMessage('Please provide a valid email'),
-  body('password')
-    .optional()
-    .isLength({ min: 6 })
-    .withMessage('Password must be at least 6 characters long')
-];
+    console.log('Login attempt for:', email);
 
-// Routes
-router.post('/register', registerValidation, handleValidationErrors, register);
-router.post('/login', loginValidation, handleValidationErrors, login);
-router.get('/me', protect, getMe);
-router.put('/profile', protect, updateProfileValidation, handleValidationErrors, updateProfile);
+    // Find user
+    const user = mockUsers.find(u => u.email === email);
+    
+    if (!user || user.password !== password) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials. Please contact your system administrator.'
+      });
+    }
+
+    // Create token
+    const token = jwt.sign(
+      { 
+        id: user.id, 
+        email: user.email,
+        name: user.name,
+        role: user.role
+      },
+      process.env.JWT_SECRET || 'fallback-secret-for-vercel',
+      { expiresIn: '30d' }
+    );
+
+    res.json({
+      success: true,
+      message: 'Login successful',
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
+    });
+
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during login'
+    });
+  }
+});
+
+// Test endpoint
+router.get('/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Auth routes are working!'
+  });
+});
 
 export default router;
